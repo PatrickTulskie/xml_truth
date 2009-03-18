@@ -38,17 +38,20 @@ module XmlTruth
               LibXML::XML::Parser.string(@xml).parse
             } end
 
-            if ENV['SLOW']
+            if ENV['HPRICOT'] || ENV['SLOW']
               GC.start
               measure('hpricot') do @n.times {
-                Hpricot(@xml)
+                Hpricot.XML(@xml)
               } end
-
+            end
+            
+            if ENV['REXML'] || ENV['SLOW']
               GC.start
               measure('rexml') do @n.times {
                 REXML::Document.new(@xml)
               } end
             end
+            
           end
         end
 
@@ -70,17 +73,20 @@ module XmlTruth
               File.open(@filename) { |xml| LibXML::XML::Parser.io(xml).parse }
             } end
 
-            if ENV['SLOW']
+            if ENV['HPRICOT'] || ENV['SLOW']
               GC.start
               measure('hpricot') do @n.times {
-                File.open(@filename) { |xml| Hpricot(xml) }
+                File.open(@filename) { |xml| Hpricot.XML(xml) }
               } end
-
+            end
+            
+            if ENV['REXML'] || ENV['SLOW']
               GC.start
               measure('rexml') do @n.times {
                 File.open(@filename) { |xml| REXML::Document.new(xml) }
               } end
             end
+            
           end
         end
       end
