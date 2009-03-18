@@ -1,0 +1,45 @@
+== Document Parsing V2
+
+In this document, tests were modified to use Hpricot.XML instead of the default HTML parser.  Also, REXML was left out since it was already tested in the first version of this document.  Furthermore, we also used Hpricot 0.7 instead of the previous .6.X releases.  Tests were conducted on a 2.4ghz Aluminum Macbook with 4gb of RAM.
+
+== N = 5
+
+Tests were run at N=5 to get a clearer picture of the differences between the various gems.  At N=2, tests were pretty close, which indicated that a larger sample was needed.
+
+	test_IO_parsing(XmlTruth::DOM::XML::LargeDocumentParsingTest) N=5
+	                  user     system      total        real   kBps
+	null          0.690000   0.070000   0.760000 (  0.768641) 46343.68
+	nokogiri      2.790000   0.130000   2.920000 (  3.015303) 11813.62
+	libxml-ruby   2.970000   0.140000   3.110000 (  3.130175) 11380.08
+	hpricot      13.660000   0.370000  14.030000 ( 14.088780) 2528.37
+	.
+	test_in_memory_parsing(XmlTruth::DOM::XML::LargeDocumentParsingTest) N=5
+	                  user     system      total        real   kBps
+	null          1.240000   0.010000   1.250000 (  1.260841) 28252.30
+	nokogiri      4.360000   0.060000   4.420000 (  4.444468) 8014.83
+	libxml-ruby   4.570000   0.050000   4.620000 (  4.641338) 7674.87
+	hpricot      13.750000   0.210000  13.960000 ( 14.045647) 2536.13
+	.
+	test_simple_xpath(XmlTruth::DOM::XML::LargeDocumentXPathSearchTest) N=5
+	                  user     system      total        real   kBps
+	nokogiri     44.430000   0.300000  44.730000 ( 44.972003) 792.09
+	libxml-ruby  40.950000   0.210000  41.160000 ( 41.300780) 862.49
+	hpricot      18.410000   0.090000  18.500000 ( 18.540239) 1921.32
+	.
+	test_IO_parsing(XmlTruth::DOM::XML::SmallDocumentParsingTest) N=1944
+	                  user     system      total        real   kBps
+	null          8.150000   0.130000   8.280000 (  8.326070) 4278.17
+	nokogiri     17.850000   0.100000  17.950000 ( 17.950534) 1984.36
+	libxml-ruby  19.010000   0.260000  19.270000 ( 19.370769) 1838.87
+	hpricot      25.320000   0.460000  25.780000 ( 25.827516) 1379.16
+	.
+	test_in_memory_parsing(XmlTruth::DOM::XML::SmallDocumentParsingTest) N=1944
+	                  user     system      total        real   kBps
+	null          3.960000   0.030000   3.990000 (  4.005522) 8892.82
+	nokogiri     18.140000   0.200000  18.340000 ( 18.403396) 1935.53
+	libxml-ruby  19.760000   0.230000  19.990000 ( 19.999905) 1781.03
+	hpricot      15.980000   0.150000  16.130000 ( 16.133157) 2207.90
+	.
+	Finished in 426.233021 seconds.
+
+	5 tests, 0 assertions, 0 failures, 0 errors
